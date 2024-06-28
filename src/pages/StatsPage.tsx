@@ -21,7 +21,7 @@ export default function StatsPage() {
   return (
     <>
       <NavBar />
-      <h1 className="m-2 pt-1 text-5xl font-light font-sans text-white text-center">
+      <h1 className="m-2 mb-6 pt-1 text-5xl font-light font-sans text-white text-center">
         Statistics
       </h1>
       <ul>
