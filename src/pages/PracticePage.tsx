@@ -1,8 +1,30 @@
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
+import { useState } from "react";
 
 export default function PracticePage() {
   const showModal = false;
+  const [inputKeys, setInputKeys] = useState<string[]>([]);
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (!event.repeat) {
+      setInputKeys((prev) => {
+        if (prev.includes(event.key.toUpperCase())) {
+          return prev;
+        } else {
+          return [...prev, event.key.toUpperCase()];
+        }
+      });
+    }
+  }
+
+  function handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
+    setInputKeys((prev) => {
+      return prev.filter((key) => {
+        return key != event.key.toUpperCase();
+      });
+    });
+  }
 
   if (showModal) {
     return <FinishModal />;
@@ -26,6 +48,11 @@ export default function PracticePage() {
           <input
             className="w-full h-28 p-4 text-7xl bg-primary-light"
             type="text"
+            onKeyDown={(event) => handleKeyDown(event)}
+            onKeyUp={(event) => handleKeyUp(event)}
+            value={inputKeys}
+            readOnly={true}
+            autoFocus={true}
           />
         </section>
       </>
