@@ -1,30 +1,62 @@
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
+import ControlledInput from "../components/ControlledInput";
 import { useState } from "react";
 
-export default function PracticePage() {
-  const showModal = false;
-  const [inputKeys, setInputKeys] = useState<string[]>([]);
+const defaultShortcuts = [
+  { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
+  // { prompt: "New Window/Instance", keybind: ["CONTROL", "SHIFT", "N"] },
+  { prompt: "Move Line Up", keybind: ["ALT", "ARROWUP"] },
+  { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"] },
+  { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"] },
+  { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"] },
+  { prompt: "Indent Line", keybind: ["CONTROL", "["] },
+  { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
+  { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
+  { prompt: "Go to File", keybind: ["CONTROL", "P"] },
+  { prompt: "Find", keybind: ["CONTROL", "F"] },
+  { prompt: "Replace", keybind: ["CONTROL", "H"] },
+  // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
+  { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
+];
 
-  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (!event.repeat) {
-      setInputKeys((prev) => {
-        if (prev.includes(event.key.toUpperCase())) {
-          return prev;
-        } else {
-          return [...prev, event.key.toUpperCase()];
-        }
-      });
+export default function PracticePage() {
+  const [counter, setCounter] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [inputKeys, setInputKeys] = useState<string[]>([]);
+  const [shortcuts, setShortcuts] = useState<
+    { prompt: string; keybind: string[] }[]
+  >([]);
+
+  function didStartPractice() {
+    if (timerRunning == false && inputKeys.includes("ENTER")) {
+      setShortcuts(defaultShortcuts);
+      setTimerRunning(true);
     }
   }
 
-  function handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
-    setInputKeys((prev) => {
-      return prev.filter((key) => {
-        return key != event.key.toUpperCase();
+  function isInputCorrect() {
+    if (
+      inputKeys.length == shortcuts[counter].keybind.length &&
+      JSON.stringify(inputKeys) == JSON.stringify(shortcuts[counter].keybind)
+    ) {
+      setCounter((prev) => {
+        return prev + 1;
       });
-    });
+      didPlayerFinish();
+    }
   }
+
+  function didPlayerFinish() {
+    if (counter == shortcuts.length) {
+      setShowModal(true);
+    }
+  }
+  //startTimer somewhere
+
+  didStartPractice();
+  timerRunning && isInputCorrect();
 
   if (showModal) {
     return <FinishModal />;
@@ -42,18 +74,16 @@ export default function PracticePage() {
           </aside>
         </section>
         <section className="w-3/4 h-2/5 m-auto p-8 flex justify-center bg-primary-light ">
-          <h1 className="m-auto text-7xl">Command Prompt</h1>
+          <h1 className="m-auto text-7xl">
+            {timerRunning
+              ? shortcuts.length
+                ? shortcuts[counter].prompt
+                : "There was an error starting the practice. Please refresh"
+              : "Press Enter to start the practice"}
+          </h1>
         </section>
         <section className="w-3/4  mx-auto mt-8 flex justify-center bg-primary-light ">
-          <input
-            className="w-full h-28 p-4 text-7xl bg-primary-light"
-            type="text"
-            onKeyDown={(event) => handleKeyDown(event)}
-            onKeyUp={(event) => handleKeyUp(event)}
-            value={inputKeys}
-            readOnly={true}
-            autoFocus={true}
-          />
+          <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
         </section>
       </>
     );
