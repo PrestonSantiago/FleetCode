@@ -1,5 +1,9 @@
 import X from "../assets/icons/X.svg";
-function FinishModal() {
+
+const FinishModal: React.FC<{
+  restart: () => void;
+}> = (props) => {
+  //function FinishModal() {
   return (
     <div className="flex w-full h-full justify-center items-center">
       <section className="bg-primary-light w-150 h-120 rounded-xl text-center">
@@ -15,7 +19,10 @@ function FinishModal() {
             <button className="text-2xl border-2 border-black w-52 h-12 rounded-3xl">
               View Stats
             </button>
-            <button className="text-2xl border-2 border-black w-52 h-12 rounded-3xl bg-secondary">
+            <button
+              onClick={props.restart}
+              className="text-2xl border-2 border-black w-52 h-12 rounded-3xl bg-secondary"
+            >
               Practice Again?
             </button>
           </div>
@@ -23,6 +30,6 @@ function FinishModal() {
       </section>
     </div>
   );
-}
+};
 
 export default FinishModal;

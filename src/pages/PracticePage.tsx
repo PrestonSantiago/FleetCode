@@ -47,15 +47,20 @@ export default function PracticePage() {
         setShortcutIndex((prev) => {
           return prev + 1;
         });
-        didPlayerFinish();
       }
+    } else {
+      onPlayerFinish();
     }
   }
 
-  function didPlayerFinish() {
-    if (playerIsFinished) {
-      setTimerRunning(false);
-    }
+  function onPlayerFinish() {
+    setTimerRunning(false);
+  }
+
+  function resetPractice() {
+    setShortcutIndex(0);
+    setInputKeys([]);
+    //reset timer to 00:00:00
   }
   //startTimer somewhere
 
@@ -63,7 +68,7 @@ export default function PracticePage() {
   timerRunning && isInputCorrect();
 
   if (playerIsFinished && shortcuts.length != 0) {
-    return <FinishModal />;
+    return <FinishModal restart={resetPractice} />;
   } else {
     return (
       <>
