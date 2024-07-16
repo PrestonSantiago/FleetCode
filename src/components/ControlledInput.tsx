@@ -4,6 +4,7 @@ const ControlledInput: React.FC<{
 }> = (props) => {
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     event.preventDefault();
+    event.stopPropagation();
     if (!event.repeat) {
       props.setInputKeys((prev) => {
         if (prev.includes(event.key.toUpperCase())) {
