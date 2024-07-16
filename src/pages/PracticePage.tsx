@@ -21,13 +21,14 @@ const defaultShortcuts = [
 ];
 
 export default function PracticePage() {
-  const [counter, setCounter] = useState(0);
+  const [shortcutIndex, setShortcutIndex] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [inputKeys, setInputKeys] = useState<string[]>([]);
   const [shortcuts, setShortcuts] = useState<
     { prompt: string; keybind: string[] }[]
   >([]);
+
+  const playerIsFinished = shortcutIndex == shortcuts.length;
 
   function didStartPractice() {
     if (timerRunning == false && inputKeys.includes("ENTER")) {
@@ -37,20 +38,23 @@ export default function PracticePage() {
   }
 
   function isInputCorrect() {
-    if (
-      inputKeys.length == shortcuts[counter].keybind.length &&
-      JSON.stringify(inputKeys) == JSON.stringify(shortcuts[counter].keybind)
-    ) {
-      setCounter((prev) => {
-        return prev + 1;
-      });
-      didPlayerFinish();
+    if (!playerIsFinished) {
+      if (
+        inputKeys.length == shortcuts[shortcutIndex].keybind.length &&
+        JSON.stringify(inputKeys) ==
+          JSON.stringify(shortcuts[shortcutIndex].keybind)
+      ) {
+        setShortcutIndex((prev) => {
+          return prev + 1;
+        });
+        didPlayerFinish();
+      }
     }
   }
 
   function didPlayerFinish() {
-    if (counter == shortcuts.length) {
-      setShowModal(true);
+    if (playerIsFinished) {
+      setTimerRunning(false);
     }
   }
   //startTimer somewhere
@@ -58,7 +62,7 @@ export default function PracticePage() {
   didStartPractice();
   timerRunning && isInputCorrect();
 
-  if (showModal) {
+  if (playerIsFinished && shortcuts.length != 0) {
     return <FinishModal />;
   } else {
     return (
@@ -77,7 +81,7 @@ export default function PracticePage() {
           <h1 className="m-auto text-7xl">
             {timerRunning
               ? shortcuts.length
-                ? shortcuts[counter].prompt
+                ? shortcuts[shortcutIndex].prompt
                 : "There was an error starting the practice. Please refresh"
               : "Press Enter to start the practice"}
           </h1>
