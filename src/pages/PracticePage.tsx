@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
 import ControlledInput from "../components/ControlledInput";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const defaultShortcuts = [
   { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
@@ -28,12 +28,27 @@ export default function PracticePage() {
     { prompt: string; keybind: string[] }[]
   >([]);
 
+  //Accurate Timer Variables
+  const [dateTimes, setDateTimes] = useState({ startTime: 0, endTime: 0 });
+
+  //Running Timer (fake timer) State & Refs
+  const timerRef = useRef(0);
+  const [seconds, setSeconds] = useState(0);
+
   const playerIsFinished = shortcutIndex == shortcuts.length;
 
   function didStartPractice() {
     if (timerRunning == false && inputKeys.includes("ENTER")) {
-      setShortcuts(defaultShortcuts);
       setTimerRunning(true);
+      setShortcuts(defaultShortcuts);
+      startTimer();
+      if (dateTimes.startTime == 0) {
+        setDateTimes((prev) => {
+          const newDateTimes = { ...prev };
+          newDateTimes.startTime = Date.now();
+          return newDateTimes;
+        });
+      }
     }
   }
 
@@ -55,20 +70,56 @@ export default function PracticePage() {
 
   function onPlayerFinish() {
     setTimerRunning(false);
+    stopTimer();
+    setDateTimes((prev) => {
+      const newDateTimes = { ...prev };
+      newDateTimes.endTime = Date.now();
+      return newDateTimes;
+    });
   }
 
   function resetPractice() {
     setShortcutIndex(0);
     setInputKeys([]);
-    //reset timer to 00:00:00
+    setSeconds(0);
+    setDateTimes({ startTime: 0, endTime: 0 });
   }
-  //startTimer somewhere
+
+  //TIMER
+  const numberFormatRegex = /\b(\d)\b/g;
+  const timer = {
+    min: Math.floor(seconds / 60)
+      .toString()
+      .replace(numberFormatRegex, "0$1"),
+    sec: (seconds % 60).toString().replace(numberFormatRegex, "0$1"),
+  };
+
+  const startTimer = () => {
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+  };
+
+  const stopTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = 0;
+  };
 
   didStartPractice();
   timerRunning && isInputCorrect();
 
   if (playerIsFinished && shortcuts.length != 0) {
-    return <FinishModal restart={resetPractice} />;
+    console.log(dateTimes);
+    return (
+      <FinishModal
+        restart={resetPractice}
+        time={
+          dateTimes.startTime != 0 ? dateTimes.endTime - dateTimes.startTime : 0
+        }
+      />
+    );
   } else {
     return (
       <>
@@ -78,7 +129,7 @@ export default function PracticePage() {
             <h3>Ctrl + Backspace to Quit</h3>
           </aside>
           <aside className="w-72 h-24 text-center flex flex-col justify-center text-5xl bg-primary-light">
-            00:00:000
+            {timer.min}:{timer.sec}
           </aside>
         </section>
         <section className="w-3/4 h-2/5 m-auto p-8 flex justify-center bg-primary-light ">
