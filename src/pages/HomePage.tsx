@@ -30,7 +30,7 @@ export default function HomePage() {
         <footer className="mt-12">
           Made by Preston Santiago //{" "}
           <a
-            href="https://github.com/PrestonSantiago?tab=repositories"
+            href="https://github.com/PrestonSantiago/FleetCode"
             className="text-lime-600"
           >
             Github Source Code
