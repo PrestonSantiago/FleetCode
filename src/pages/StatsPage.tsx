@@ -1,4 +1,3 @@
-import NavBar from "../components/NavBar";
 import StatsRow from "../components/StatsRow";
 
 const fakeStatsData = [
@@ -20,7 +19,6 @@ const fakeStatsData = [
 export default function StatsPage() {
   return (
     <>
-      <NavBar />
       <h1 className="m-2 mb-6 pt-1 text-5xl font-light font-sans text-white text-center">
         Statistics
       </h1>

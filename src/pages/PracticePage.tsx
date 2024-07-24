@@ -1,35 +1,35 @@
-import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
 import ControlledInput from "../components/ControlledInput";
 import { useState, useRef } from "react";
+import NavBar from "../components/NavBar";
 
 const defaultShortcuts = [
   { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
   // { prompt: "New Window/Instance", keybind: ["CONTROL", "SHIFT", "N"] },
-  { prompt: "Move Line Up", keybind: ["ALT", "ARROWUP"] },
-  { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"] },
-  { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"] },
-  { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"] },
-  { prompt: "Indent Line", keybind: ["CONTROL", "["] },
-  { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
-  { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
-  { prompt: "Go to File", keybind: ["CONTROL", "P"] },
-  { prompt: "Find", keybind: ["CONTROL", "F"] },
-  { prompt: "Replace", keybind: ["CONTROL", "H"] },
-  // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
-  { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
+  // { prompt: "Move Line Up", keybind: ["ALT", "ARROWUP"] },
+  // { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"] },
+  // { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"] },
+  // { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"] },
+  // { prompt: "Indent Line", keybind: ["CONTROL", "["] },
+  // { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
+  // { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
+  // { prompt: "Go to File", keybind: ["CONTROL", "P"] },
+  // { prompt: "Find", keybind: ["CONTROL", "F"] },
+  // { prompt: "Replace", keybind: ["CONTROL", "H"] },
+  // // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
+  // { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
 ];
 
 export default function PracticePage() {
-  const [shortcutIndex, setShortcutIndex] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(false);
   const [inputKeys, setInputKeys] = useState<string[]>([]);
+  const [shortcutIndex, setShortcutIndex] = useState(0);
   const [shortcuts, setShortcuts] = useState<
     { prompt: string; keybind: string[] }[]
   >([]);
 
   //Timer Variables
   const [dateTimes, setDateTimes] = useState({ startTime: 0, endTime: 0 });
+  const [timerRunning, setTimerRunning] = useState(false);
   const milliseconds = dateTimes.endTime - dateTimes.startTime;
   const timerRef = useRef(0);
 

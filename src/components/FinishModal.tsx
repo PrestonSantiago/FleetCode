@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import X from "../assets/icons/X.svg";
 
 const FinishModal: React.FC<{
@@ -24,7 +25,9 @@ const FinishModal: React.FC<{
     <div className="flex w-full h-full justify-center items-center">
       <section className="bg-primary-light w-150 h-120 rounded-xl text-center">
         <button className="float-right">
-          <img src={X} alt="Exit Icon" className="m-4" />
+          <Link to="/" className="block">
+            <img src={X} alt="Exit Icon" className="m-4" />
+          </Link>
         </button>
         <div className="w-full h-96 flex flex-col justify-evenly">
           {props.time > 0 ? (
@@ -42,7 +45,9 @@ const FinishModal: React.FC<{
 
           <div className="flex justify-around">
             <button className="text-2xl border-2 border-black w-52 h-12 rounded-3xl">
-              View Stats
+              <Link to="/stats" className="block">
+                View Stats
+              </Link>
             </button>
             <button
               onClick={props.restart}
