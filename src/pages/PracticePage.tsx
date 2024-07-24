@@ -28,12 +28,10 @@ export default function PracticePage() {
     { prompt: string; keybind: string[] }[]
   >([]);
 
-  //Accurate Timer Variables
+  //Timer Variables
   const [dateTimes, setDateTimes] = useState({ startTime: 0, endTime: 0 });
-
-  //Running Timer (fake timer) State & Refs
+  const milliseconds = dateTimes.endTime - dateTimes.startTime;
   const timerRef = useRef(0);
-  const [seconds, setSeconds] = useState(0);
 
   const playerIsFinished = shortcutIndex == shortcuts.length;
 
@@ -43,11 +41,7 @@ export default function PracticePage() {
       setShortcuts(defaultShortcuts);
       startTimer();
       if (dateTimes.startTime == 0) {
-        setDateTimes((prev) => {
-          const newDateTimes = { ...prev };
-          newDateTimes.startTime = Date.now();
-          return newDateTimes;
-        });
+        setDateTimes({ startTime: Date.now(), endTime: Date.now() });
       }
     }
   }
@@ -81,23 +75,28 @@ export default function PracticePage() {
   function resetPractice() {
     setShortcutIndex(0);
     setInputKeys([]);
-    setSeconds(0);
     setDateTimes({ startTime: 0, endTime: 0 });
   }
 
   //TIMER
   const numberFormatRegex = /\b(\d)\b/g;
   const timer = {
-    min: Math.floor(seconds / 60)
+    min: Math.floor(milliseconds / 1000 / 60)
       .toString()
       .replace(numberFormatRegex, "0$1"),
-    sec: (seconds % 60).toString().replace(numberFormatRegex, "0$1"),
+    sec: Math.floor((milliseconds / 1000) % 60)
+      .toString()
+      .replace(numberFormatRegex, "0$1"),
   };
 
   const startTimer = () => {
     if (!timerRef.current) {
       timerRef.current = setInterval(() => {
-        setSeconds((prev) => prev + 1);
+        setDateTimes((prev) => {
+          const newDateTimes = { ...prev };
+          newDateTimes.endTime = Date.now();
+          return newDateTimes;
+        });
       }, 1000);
     }
   };
@@ -111,13 +110,10 @@ export default function PracticePage() {
   timerRunning && isInputCorrect();
 
   if (playerIsFinished && shortcuts.length != 0) {
-    console.log(dateTimes);
     return (
       <FinishModal
         restart={resetPractice}
-        time={
-          dateTimes.startTime != 0 ? dateTimes.endTime - dateTimes.startTime : 0
-        }
+        time={dateTimes.startTime != 0 ? milliseconds : 0}
       />
     );
   } else {
