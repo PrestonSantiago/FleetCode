@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { TimerContext } from "../store/timer-context";
 import NavBar from "../components/NavBar";
@@ -42,17 +42,17 @@ export default function PracticePage() {
 
   const playerIsFinished = shortcutIndex.current == shortcuts.length;
 
-  function handleInput() {
-    console.log(inputKeys);
-    if (JSON.stringify(inputKeys) == '["CONTROL","BACKSPACE"]') {
+  function handleInput(input: string[]) {
+    if (JSON.stringify(input) == '["CONTROL","BACKSPACE"]') {
       navigate("/");
     } else if (timerRunning) {
-      if (inputKeys.includes("CAPSLOCK")) {
+      if (input.includes("CAPSLOCK")) {
         setShowHint((prev) => !prev);
+        console.log("HINT");
       } else {
-        isInputCorrect();
+        isInputCorrect(input);
       }
-    } else if (inputKeys.includes("ENTER")) {
+    } else if (input.includes("ENTER")) {
       startPractice();
     }
   }
@@ -66,11 +66,11 @@ export default function PracticePage() {
     }
   }
 
-  function isInputCorrect() {
-    if (!playerIsFinished) {
+  function isInputCorrect(input: string[]) {
+    if (shortcutIndex.current !== shortcuts.length) {
       if (
-        inputKeys.length == shortcuts[shortcutIndex.current].keybind.length &&
-        JSON.stringify(inputKeys) ==
+        input.length == shortcuts[shortcutIndex.current].keybind.length &&
+        JSON.stringify(input) ==
           JSON.stringify(shortcuts[shortcutIndex.current].keybind)
       ) {
         shortcutIndex.current += 1;
@@ -96,10 +96,6 @@ export default function PracticePage() {
     setDateTimes({ startTime: 0, endTime: 0 });
     setShowHint(false);
   }
-
-  useEffect(() => {
-    handleInput();
-  }, [handleInput, inputKeys]);
 
   if (playerIsFinished && shortcuts.length != 0) {
     return <FinishModal restart={resetPractice} />;
@@ -129,7 +125,11 @@ export default function PracticePage() {
           )}
         </section>
         <section className="w-3/4  mx-auto mt-8 flex justify-center bg-primary-light ">
-          <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
+          <ControlledInput
+            setInputKeys={setInputKeys}
+            inputKeys={inputKeys}
+            onChange={handleInput}
+          />
         </section>
       </>
     );
