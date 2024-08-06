@@ -47,8 +47,7 @@ export default function PracticePage() {
       navigate("/");
     } else if (timerRunning) {
       if (input.includes("CAPSLOCK")) {
-        setShowHint((prev) => !prev);
-        console.log("HINT");
+        setShowHint(!showHint);
       } else {
         isInputCorrect(input);
       }
