@@ -1,21 +1,23 @@
+import { useContext } from "react";
+import { TimerContext } from "../store/timer-context";
 import { Link } from "react-router-dom";
 import X from "../assets/icons/X.svg";
 
 const FinishModal: React.FC<{
   restart: () => void;
-  time: number;
 }> = (props) => {
-  //function FinishModal() {
-  console.log(props.time);
+  const { dateTimes } = useContext(TimerContext);
+  const milliseconds = dateTimes.endTime - dateTimes.startTime;
+
   const numberFormatRegex = /\b(\d)\b/g;
   const formattedTime = {
-    min: Math.floor(props.time / 60 / 1000)
+    min: Math.floor(milliseconds / 60 / 1000)
       .toString()
       .replace(numberFormatRegex, "0$1"),
-    sec: Math.floor((props.time / 1000) % 60)
+    sec: Math.floor((milliseconds / 1000) % 60)
       .toString()
       .replace(numberFormatRegex, "0$1"),
-    ms: (props.time % 1000)
+    ms: (milliseconds % 1000)
       .toString()
       .replace(numberFormatRegex, "00$1")
       .replace(/\b(\d{2})\b/g, "0$1"),
@@ -30,7 +32,7 @@ const FinishModal: React.FC<{
           </Link>
         </button>
         <div className="w-full h-96 flex flex-col justify-evenly">
-          {props.time > 0 ? (
+          {milliseconds > 0 ? (
             <div>
               <h3 className="text-3xl m-4">You Finished This Practice In</h3>
               <h1 className="text-5xl m-4">

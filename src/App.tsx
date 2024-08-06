@@ -5,10 +5,18 @@ import PracticePage from "./pages/PracticePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import RootLayout from "./pages/RootLayout";
+import TimerContextProvider from "./store/timer-context";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
-  { path: "/practice", element: <PracticePage /> },
+  {
+    path: "/practice",
+    element: (
+      <TimerContextProvider>
+        <PracticePage />
+      </TimerContextProvider>
+    ),
+  },
   {
     path: "/",
     element: <RootLayout />,
