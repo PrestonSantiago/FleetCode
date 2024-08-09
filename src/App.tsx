@@ -6,15 +6,18 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import RootLayout from "./pages/RootLayout";
 import TimerContextProvider from "./store/timer-context";
+import StatsContextProvider from "./store/stats-context";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   {
     path: "/practice",
     element: (
-      <TimerContextProvider>
-        <PracticePage />
-      </TimerContextProvider>
+      <StatsContextProvider>
+        <TimerContextProvider>
+          <PracticePage />
+        </TimerContextProvider>
+      </StatsContextProvider>
     ),
   },
   {
@@ -22,8 +25,18 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/stats", element: <StatsPage /> },
-      { path: "/settings", element: <SettingsPage /> },
+      {
+        path: "/stats",
+        element: (
+          <StatsContextProvider>
+            <StatsPage />{" "}
+          </StatsContextProvider>
+        ),
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
+      },
     ],
   },
 ]);
