@@ -1,6 +1,6 @@
 type Time = {
   dateTime: string;
-  completionTime: string;
+  completionTime: number;
 };
 
 export default Time;

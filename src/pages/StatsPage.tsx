@@ -2,16 +2,36 @@ import StatsRow from "../components/StatsRow";
 
 const fakeStatsData = [
   {
-    date: new Date().toLocaleDateString(),
-    avg: "00:00:000",
-    best: "11:11:111",
+    date: "8/8/2024",
     times: [
       {
         dateTime: new Date().toLocaleTimeString(),
-        completionTime: "22:22:222",
+        completionTime: 33619,
       },
-      { dateTime: "13:05:01 AM", completionTime: "33:33:333" },
-      { dateTime: "14:05:01 AM", completionTime: "44:44:444" },
+      { dateTime: "13:05:01 AM", completionTime: 85496 },
+      { dateTime: "14:05:01 AM", completionTime: 17045 },
+    ],
+  },
+  {
+    date: "8/7/2024",
+    times: [
+      {
+        dateTime: new Date().toLocaleTimeString(),
+        completionTime: 33619,
+      },
+      { dateTime: "13:05:01 AM", completionTime: 85496 },
+      { dateTime: "14:05:01 AM", completionTime: 17045 },
+    ],
+  },
+  {
+    date: "8/6/2024",
+    times: [
+      {
+        dateTime: new Date().toLocaleTimeString(),
+        completionTime: 33619,
+      },
+      { dateTime: "13:05:01 AM", completionTime: 85496 },
+      { dateTime: "14:05:01 AM", completionTime: 17045 },
     ],
   },
 ];
@@ -23,8 +43,9 @@ export default function StatsPage() {
         Statistics
       </h1>
       <ul>
-        <StatsRow statsData={fakeStatsData[0]} />
-        <StatsRow statsData={fakeStatsData[0]} />
+        {fakeStatsData.map((stats) => {
+          return <StatsRow statsData={stats} />;
+        })}
       </ul>
     </>
   );

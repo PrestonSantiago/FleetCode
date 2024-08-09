@@ -8,6 +8,32 @@ const StatsRow: React.FC<{
 }> = (props) => {
   {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    const numberFormatRegex = /\b(\d)\b/g;
+    const formatTime = (milliseconds: number) => {
+      return {
+        min: Math.floor(milliseconds / 1000 / 60)
+          .toString()
+          .replace(numberFormatRegex, "0$1"),
+        sec: Math.floor((milliseconds / 1000) % 60)
+          .toString()
+          .replace(numberFormatRegex, "0$1"),
+      };
+    };
+    const calculateAvgTime = () => {
+      let totalMilliseconds = 0;
+      props.statsData.times.forEach((time) => {
+        totalMilliseconds += time.completionTime;
+      });
+      const formattedTime = formatTime(
+        totalMilliseconds / props.statsData.times.length
+      );
+      return formattedTime;
+    };
+    const avgTime = calculateAvgTime();
+    const timesList = props.statsData.times.map((time) => {
+      return time.completionTime;
+    });
+    const bestTime = formatTime(Math.min(...timesList));
 
     const handleToggleDrawer = () => {
       setDrawerIsOpen((drawerIsOpen) => {
@@ -21,8 +47,12 @@ const StatsRow: React.FC<{
             <img className="m-6" src={ClosedArrow} alt="Right facing arrow" />
           </button>
           <p className="text-3xl">Date: {props.statsData.date}</p>
-          <p className="text-3xl">Avg Time: {props.statsData.avg}</p>
-          <p className="text-3xl mr-6">Best Time: {props.statsData.best}</p>
+          <p className="text-3xl">
+            Avg Time: {avgTime.min + ":" + avgTime.sec}
+          </p>
+          <p className="text-3xl mr-6">
+            Best Time: {bestTime.min + ":" + bestTime.sec}
+          </p>
         </li>
       );
     } else {
@@ -36,13 +66,18 @@ const StatsRow: React.FC<{
           </div>
           <ul>
             {props.statsData.times.map((time) => {
+              const formattedCompletionTime = formatTime(time.completionTime);
               return (
                 <li
                   key={time.dateTime}
                   className="grid grid-cols-2 text-center"
                 >
                   <p className="text-2xl mb-4">{time.dateTime}</p>
-                  <p className="text-2xl mb-4">{time.completionTime}</p>
+                  <p className="text-2xl mb-4">
+                    {formattedCompletionTime.min +
+                      ":" +
+                      formattedCompletionTime.sec}
+                  </p>
                 </li>
               );
             })}
