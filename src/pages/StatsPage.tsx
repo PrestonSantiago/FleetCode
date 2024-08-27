@@ -4,7 +4,7 @@ import { StatsContext } from "../store/stats-context";
 
 export default function StatsPage() {
   const { stats } = useContext(StatsContext);
-  //console.log(stats);
+  console.log(stats);
   return (
     <>
       <h1 className="m-2 mb-6 pt-1 text-5xl font-light font-sans text-white text-center">

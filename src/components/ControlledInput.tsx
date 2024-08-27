@@ -1,7 +1,7 @@
 const ControlledInput: React.FC<{
   inputKeys: string[];
   setInputKeys: React.Dispatch<React.SetStateAction<string[]>>;
-  onChange: (input: string[]) => void;
+  handleInput: (input: string[]) => void;
 }> = (props) => {
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -11,9 +11,8 @@ const ControlledInput: React.FC<{
         if (prev.includes(event.key.toUpperCase())) {
           return prev;
         } else {
-          const updatedState = [...prev, event.key.toUpperCase()];
-          props.onChange(updatedState);
-          return updatedState;
+          props.handleInput([...prev, event.key.toUpperCase()]);
+          return [...prev, event.key.toUpperCase()];
         }
       });
     }
@@ -24,7 +23,7 @@ const ControlledInput: React.FC<{
       const updatedState = prev.filter((key) => {
         return key != event.key.toUpperCase();
       });
-      props.onChange(updatedState);
+      props.handleInput(updatedState);
       return updatedState;
     });
   }

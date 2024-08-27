@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
 import ControlledInput from "../components/ControlledInput";
 import Timer from "../components/Timer";
+import { StatsContext } from "../store/stats-context";
 
 const defaultShortcuts = [
   { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
@@ -39,8 +40,13 @@ export default function PracticePage() {
     startTimer,
     stopTimer,
   } = useContext(TimerContext);
+  const { updateStats } = useContext(StatsContext);
 
   const playerIsFinished = shortcutIndex.current == shortcuts.length;
+
+  // useEffect(() => {
+  //   handleInput();
+  // }, [inputKeys, handleInput]);
 
   function handleInput(input: string[]) {
     if (JSON.stringify(input) == '["CONTROL","BACKSPACE"]') {
@@ -87,6 +93,7 @@ export default function PracticePage() {
       newDateTimes.endTime = Date.now();
       return newDateTimes;
     });
+    updateStats(new Date(), dateTimes.endTime - dateTimes.startTime);
   }
 
   function resetPractice() {
@@ -127,7 +134,7 @@ export default function PracticePage() {
           <ControlledInput
             setInputKeys={setInputKeys}
             inputKeys={inputKeys}
-            onChange={handleInput}
+            handleInput={handleInput}
           />
         </section>
       </>
