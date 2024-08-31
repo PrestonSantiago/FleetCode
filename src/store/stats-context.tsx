@@ -52,7 +52,6 @@ const StatsContextProvider: React.FC<{ children: ReactNode }> = (props) => {
   const [stats, setStats] = useState(fakeStatsData);
 
   function updateStats(completionDate: Date, completionTime: number) {
-    console.log(completionTime + " bop");
     setStats((prev) => {
       const newState = [...prev];
       const dateIndex = prev.findIndex((stats) => {

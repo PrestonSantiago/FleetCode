@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { TimerContext } from "../store/timer-context";
 import NavBar from "../components/NavBar";
@@ -42,59 +42,75 @@ export default function PracticePage() {
   } = useContext(TimerContext);
   const { updateStats } = useContext(StatsContext);
 
-  const playerIsFinished = shortcutIndex.current == shortcuts.length;
+  const playerIsFinished = shortcutIndex.current === shortcuts.length;
 
-  // useEffect(() => {
-  //   handleInput();
-  // }, [inputKeys, handleInput]);
-
-  function handleInput(input: string[]) {
-    if (JSON.stringify(input) == '["CONTROL","BACKSPACE"]') {
-      navigate("/");
-    } else if (timerRunning) {
-      if (input.includes("CAPSLOCK")) {
-        setShowHint(!showHint);
-      } else {
-        isInputCorrect(input);
-      }
-    } else if (input.includes("ENTER")) {
-      startPractice();
-    }
-  }
-
-  function startPractice() {
+  const startPractice = useCallback(() => {
     setTimerRunning(true);
     setShortcuts(defaultShortcuts);
     startTimer();
-    if (dateTimes.startTime == 0) {
+    if (dateTimes.startTime === 0) {
       setDateTimes({ startTime: Date.now(), endTime: Date.now() });
     }
-  }
+  }, [
+    setTimerRunning,
+    setShortcuts,
+    startTimer,
+    setDateTimes,
+    dateTimes.startTime,
+  ]);
 
-  function isInputCorrect(input: string[]) {
-    if (shortcutIndex.current !== shortcuts.length) {
-      if (
-        input.length == shortcuts[shortcutIndex.current].keybind.length &&
-        JSON.stringify(input) ==
-          JSON.stringify(shortcuts[shortcutIndex.current].keybind)
-      ) {
-        shortcutIndex.current += 1;
+  const isInputCorrect = useCallback(
+    (input: string[]) => {
+      if (shortcutIndex.current !== shortcuts.length) {
+        if (
+          input.length === shortcuts[shortcutIndex.current].keybind.length &&
+          JSON.stringify(input) ===
+            JSON.stringify(shortcuts[shortcutIndex.current].keybind)
+        ) {
+          shortcutIndex.current += 1;
+        }
+      } else {
+        setTimerRunning(false);
+        stopTimer();
+        setDateTimes((prev) => {
+          const newDateTimes = { ...prev };
+          newDateTimes.endTime = Date.now();
+          return newDateTimes;
+        });
+        updateStats(new Date(), dateTimes.endTime - dateTimes.startTime);
       }
-    } else {
-      onPlayerFinish();
-    }
-  }
+    },
+    [
+      shortcuts,
+      stopTimer,
+      setTimerRunning,
+      setDateTimes,
+      updateStats,
+      dateTimes.endTime,
+      dateTimes.startTime,
+    ]
+  );
 
-  function onPlayerFinish() {
-    setTimerRunning(false);
-    stopTimer();
-    setDateTimes((prev) => {
-      const newDateTimes = { ...prev };
-      newDateTimes.endTime = Date.now();
-      return newDateTimes;
-    });
-    updateStats(new Date(), dateTimes.endTime - dateTimes.startTime);
-  }
+  const handleInput = useCallback(
+    (input: string[]) => {
+      if (JSON.stringify(input) === '["CONTROL","BACKSPACE"]') {
+        navigate("/");
+      } else if (timerRunning) {
+        if (input.includes("CAPSLOCK")) {
+          setShowHint((prev) => !prev);
+        } else {
+          isInputCorrect(input);
+        }
+      } else if (input.includes("ENTER")) {
+        startPractice();
+      }
+    },
+    [navigate, timerRunning, startPractice, isInputCorrect]
+  );
+
+  useEffect(() => {
+    handleInput(inputKeys);
+  }, [inputKeys, handleInput]);
 
   function resetPractice() {
     shortcutIndex.current = 0;
@@ -103,7 +119,7 @@ export default function PracticePage() {
     setShowHint(false);
   }
 
-  if (playerIsFinished && shortcuts.length != 0) {
+  if (playerIsFinished && shortcuts.length !== 0) {
     return <FinishModal restart={resetPractice} />;
   } else {
     return (
@@ -130,12 +146,8 @@ export default function PracticePage() {
             </h1>
           )}
         </section>
-        <section className="w-3/4  mx-auto mt-8 flex justify-center bg-primary-light ">
-          <ControlledInput
-            setInputKeys={setInputKeys}
-            inputKeys={inputKeys}
-            handleInput={handleInput}
-          />
+        <section className="w-3/4 mx-auto mt-8 flex justify-center bg-primary-light ">
+          <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
         </section>
       </>
     );
