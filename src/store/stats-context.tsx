@@ -54,16 +54,16 @@ const StatsContextProvider: React.FC<{ children: ReactNode }> = (props) => {
   function updateStats(completionDate: Date, completionTime: number) {
     setStats((prev) => {
       const newState = [...prev];
-      const dateIndex = prev.findIndex((stats) => {
-        completionDate.toLocaleDateString() === stats.date;
-      });
+      const dateIndex = newState.findIndex(
+        (stats) => completionDate.toLocaleDateString() === stats.date
+      );
       if (dateIndex >= 0) {
         newState[dateIndex].times.push({
           dateTime: completionDate.toLocaleTimeString(),
           completionTime: completionTime,
         });
       } else {
-        newState.push({
+        newState.unshift({
           date: completionDate.toLocaleDateString(),
           times: [
             {

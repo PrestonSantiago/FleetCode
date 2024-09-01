@@ -13,11 +13,9 @@ const router = createBrowserRouter([
   {
     path: "/practice",
     element: (
-      <StatsContextProvider>
-        <TimerContextProvider>
-          <PracticePage />
-        </TimerContextProvider>
-      </StatsContextProvider>
+      <TimerContextProvider>
+        <PracticePage />
+      </TimerContextProvider>
     ),
   },
   {
@@ -27,11 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/stats",
-        element: (
-          <StatsContextProvider>
-            <StatsPage />{" "}
-          </StatsContextProvider>
-        ),
+        element: <StatsPage />,
       },
       {
         path: "/settings",
@@ -44,7 +38,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="bg-primary-dark w-full h-screen">
-      <RouterProvider router={router} />
+      <StatsContextProvider>
+        <RouterProvider router={router} />
+      </StatsContextProvider>
     </div>
   );
 }
