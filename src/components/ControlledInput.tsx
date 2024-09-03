@@ -1,3 +1,5 @@
+import React from "react";
+
 const ControlledInput: React.FC<{
   inputKeys: string[];
   setInputKeys: React.Dispatch<React.SetStateAction<string[]>>;
@@ -18,9 +20,7 @@ const ControlledInput: React.FC<{
 
   function handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
     props.setInputKeys((prev) => {
-      return prev.filter((key) => {
-        return key != event.key.toUpperCase();
-      });
+      return prev.filter((key) => key !== event.key.toUpperCase());
     });
   }
 
@@ -28,9 +28,10 @@ const ControlledInput: React.FC<{
     <input
       className="w-full h-28 p-4 text-7xl bg-primary-light"
       type="text"
-      onKeyDown={(event) => handleKeyDown(event)}
-      onKeyUp={(event) => handleKeyUp(event)}
-      value={props.inputKeys}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      value={props.inputKeys.join("+")}
+      placeholder="Type Something"
       readOnly={true}
       autoFocus={true}
     />

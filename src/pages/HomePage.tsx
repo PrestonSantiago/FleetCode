@@ -1,4 +1,5 @@
 import FleetCodeLogo from "../assets/Keycaps/FleetCode-Logo.svg";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -18,13 +19,19 @@ export default function HomePage() {
         </p>
         <div className="flex justify-around">
           <button className="text-2xl border-2 border-black w-40 h-12 rounded-3xl">
-            Stats
+            <Link to="/stats" className="block">
+              Stats
+            </Link>
           </button>
           <button className="text-2xl border-2 border-black w-40 h-12 rounded-3xl">
-            Keybinds
+            <Link to="/settings" className="block">
+              Settings
+            </Link>
           </button>
           <button className="text-2xl border-2 border-black w-40 h-12 rounded-3xl bg-secondary">
-            Start
+            <Link to="/practice" className="block">
+              Start
+            </Link>
           </button>
         </div>
         <footer className="mt-12">

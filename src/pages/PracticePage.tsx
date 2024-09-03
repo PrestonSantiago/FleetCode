@@ -1,7 +1,11 @@
+import { useState, useContext, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { TimerContext } from "../store/timer-context";
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
 import ControlledInput from "../components/ControlledInput";
-import { useState, useRef } from "react";
+import Timer from "../components/Timer";
+import { StatsContext } from "../store/stats-context";
 
 const defaultShortcuts = [
   { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
@@ -21,127 +25,128 @@ const defaultShortcuts = [
 ];
 
 export default function PracticePage() {
-  const [shortcutIndex, setShortcutIndex] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(false);
   const [inputKeys, setInputKeys] = useState<string[]>([]);
+  const shortcutIndex = useRef(0);
   const [shortcuts, setShortcuts] = useState<
     { prompt: string; keybind: string[] }[]
   >([]);
+  const [showHint, setShowHint] = useState(false);
+  const navigate = useNavigate();
+  const {
+    dateTimes,
+    setDateTimes,
+    timerRunning,
+    setTimerRunning,
+    startTimer,
+    stopTimer,
+  } = useContext(TimerContext);
+  const { updateStats } = useContext(StatsContext);
 
-  //Accurate Timer Variables
-  const [dateTimes, setDateTimes] = useState({ startTime: 0, endTime: 0 });
+  const playerIsFinished = shortcutIndex.current === shortcuts.length;
 
-  //Running Timer (fake timer) State & Refs
-  const timerRef = useRef(0);
-  const [seconds, setSeconds] = useState(0);
+  const startPractice = useCallback(() => {
+    setTimerRunning(true);
+    setShortcuts(defaultShortcuts);
+    startTimer();
+    if (dateTimes.startTime === 0) {
+      setDateTimes({ startTime: Date.now(), endTime: Date.now() });
+    }
+  }, [
+    setTimerRunning,
+    setShortcuts,
+    startTimer,
+    setDateTimes,
+    dateTimes.startTime,
+  ]);
 
-  const playerIsFinished = shortcutIndex == shortcuts.length;
-
-  function didStartPractice() {
-    if (timerRunning == false && inputKeys.includes("ENTER")) {
-      setTimerRunning(true);
-      setShortcuts(defaultShortcuts);
-      startTimer();
-      if (dateTimes.startTime == 0) {
+  const isInputCorrect = useCallback(
+    (input: string[]) => {
+      if (shortcutIndex.current !== shortcuts.length) {
+        if (
+          input.length === shortcuts[shortcutIndex.current].keybind.length &&
+          JSON.stringify(input) ===
+            JSON.stringify(shortcuts[shortcutIndex.current].keybind)
+        ) {
+          shortcutIndex.current += 1;
+        }
+      } else {
+        setTimerRunning(false);
+        stopTimer();
         setDateTimes((prev) => {
           const newDateTimes = { ...prev };
-          newDateTimes.startTime = Date.now();
+          newDateTimes.endTime = Date.now();
           return newDateTimes;
         });
+        updateStats(new Date(), dateTimes.endTime - dateTimes.startTime);
       }
-    }
-  }
+    },
+    [
+      shortcuts,
+      stopTimer,
+      setTimerRunning,
+      setDateTimes,
+      updateStats,
+      dateTimes.endTime,
+      dateTimes.startTime,
+    ]
+  );
 
-  function isInputCorrect() {
-    if (!playerIsFinished) {
-      if (
-        inputKeys.length == shortcuts[shortcutIndex].keybind.length &&
-        JSON.stringify(inputKeys) ==
-          JSON.stringify(shortcuts[shortcutIndex].keybind)
-      ) {
-        setShortcutIndex((prev) => {
-          return prev + 1;
-        });
+  const handleInput = useCallback(
+    (input: string[]) => {
+      if (JSON.stringify(input) === '["CONTROL","BACKSPACE"]') {
+        navigate("/");
+      } else if (timerRunning) {
+        if (input.includes("CAPSLOCK")) {
+          setShowHint((prev) => !prev);
+        } else {
+          isInputCorrect(input);
+        }
+      } else if (input.includes("ENTER")) {
+        startPractice();
       }
-    } else {
-      onPlayerFinish();
-    }
-  }
+    },
+    [navigate, timerRunning, startPractice, isInputCorrect]
+  );
 
-  function onPlayerFinish() {
-    setTimerRunning(false);
-    stopTimer();
-    setDateTimes((prev) => {
-      const newDateTimes = { ...prev };
-      newDateTimes.endTime = Date.now();
-      return newDateTimes;
-    });
-  }
+  useEffect(() => {
+    handleInput(inputKeys);
+  }, [inputKeys, handleInput]);
 
   function resetPractice() {
-    setShortcutIndex(0);
+    shortcutIndex.current = 0;
     setInputKeys([]);
-    setSeconds(0);
     setDateTimes({ startTime: 0, endTime: 0 });
+    setShowHint(false);
   }
 
-  //TIMER
-  const numberFormatRegex = /\b(\d)\b/g;
-  const timer = {
-    min: Math.floor(seconds / 60)
-      .toString()
-      .replace(numberFormatRegex, "0$1"),
-    sec: (seconds % 60).toString().replace(numberFormatRegex, "0$1"),
-  };
-
-  const startTimer = () => {
-    if (!timerRef.current) {
-      timerRef.current = setInterval(() => {
-        setSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-  };
-
-  const stopTimer = () => {
-    clearInterval(timerRef.current);
-    timerRef.current = 0;
-  };
-
-  didStartPractice();
-  timerRunning && isInputCorrect();
-
-  if (playerIsFinished && shortcuts.length != 0) {
-    console.log(dateTimes);
-    return (
-      <FinishModal
-        restart={resetPractice}
-        time={
-          dateTimes.startTime != 0 ? dateTimes.endTime - dateTimes.startTime : 0
-        }
-      />
-    );
+  if (playerIsFinished && shortcuts.length !== 0) {
+    return <FinishModal restart={resetPractice} />;
   } else {
     return (
       <>
         <NavBar />
         <section className="flex justify-between pb-8 px-8">
           <aside className="w-72 h-24 pl-2 flex flex-col justify-center text-2xl bg-primary-light">
+            <h3>Caps Lock to {showHint ? "Hide" : "Show"} Hint</h3>
             <h3>Ctrl + Backspace to Quit</h3>
           </aside>
-          <aside className="w-72 h-24 text-center flex flex-col justify-center text-5xl bg-primary-light">
-            {timer.min}:{timer.sec}
-          </aside>
+          <Timer />
         </section>
-        <section className="w-3/4 h-2/5 m-auto p-8 flex justify-center bg-primary-light ">
+        <section className="w-3/4 h-2/5 m-auto p-8 flex flex-col justify-center bg-primary-light ">
           <h1 className="m-auto text-7xl">
             {timerRunning
               ? shortcuts.length
-                ? shortcuts[shortcutIndex].prompt
+                ? shortcuts[shortcutIndex.current].prompt
                 : "There was an error starting the practice. Please refresh"
               : "Press Enter to start the practice"}
           </h1>
+          {showHint && (
+            <h1 className="m-auto p-4 text-7xl border border-primary-dark rounded-xl">
+              {"Hint: " + shortcuts[shortcutIndex.current].keybind.join(" + ")}
+            </h1>
+          )}
         </section>
-        <section className="w-3/4  mx-auto mt-8 flex justify-center bg-primary-light ">
+        <section className="w-3/4 mx-auto mt-8 flex justify-center bg-primary-light ">
           <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
         </section>
       </>

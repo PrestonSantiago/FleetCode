@@ -1,18 +1,20 @@
-import NavBar from "../components/NavBar";
 import SettingsRow from "../components/SettingsRow";
+import { useContext } from "react";
+import { SettingsContext } from "../store/settings-context";
 
 export default function SettingsPage() {
+  const { settings, updateSettings } = useContext(SettingsContext);
   return (
     <>
-      <NavBar />
       <h1 className="m-2 mb-6 pt-1 text-5xl font-light font-sans text-white text-center">
-        Settings
+        {"Settings (in progress)"}
       </h1>
       <ul>
-        <SettingsRow />
-        <SettingsRow />
-        <SettingsRow />
-        <SettingsRow />
+        {settings.map((shortcut) => {
+          return (
+            <SettingsRow shortcut={shortcut} updateSettings={updateSettings} />
+          );
+        })}
       </ul>
     </>
   );
