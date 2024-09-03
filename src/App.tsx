@@ -7,6 +7,7 @@ import ErrorPage from "./pages/ErrorPage";
 import RootLayout from "./pages/RootLayout";
 import TimerContextProvider from "./store/timer-context";
 import StatsContextProvider from "./store/stats-context";
+import SettingsContextProvider from "./store/settings-context";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -38,9 +39,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="bg-primary-dark w-full h-screen">
-      <StatsContextProvider>
-        <RouterProvider router={router} />
-      </StatsContextProvider>
+      <SettingsContextProvider>
+        <StatsContextProvider>
+          <RouterProvider router={router} />
+        </StatsContextProvider>
+      </SettingsContextProvider>
     </div>
   );
 }
