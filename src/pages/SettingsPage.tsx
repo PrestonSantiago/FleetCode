@@ -7,7 +7,7 @@ export default function SettingsPage() {
   return (
     <>
       <h1 className="m-2 mb-6 pt-1 text-5xl font-light font-sans text-white text-center">
-        Settings
+        {"Settings (in progress)"}
       </h1>
       <ul>
         {settings.map((shortcut) => {

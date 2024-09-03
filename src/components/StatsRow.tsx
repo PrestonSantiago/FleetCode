@@ -65,6 +65,10 @@ const StatsRow: React.FC<{
             <p className="text-3xl">All Times: {props.statsData.date}</p>
           </div>
           <ul>
+            <li className="grid grid-cols-2 text-center">
+              <p className="text-3xl mb-4">Time of Day</p>
+              <p className="text-3xl mb-4">Completion Time</p>
+            </li>
             {props.statsData.times.map((time) => {
               const formattedCompletionTime = formatTime(time.completionTime);
               return (

@@ -31,6 +31,7 @@ const ControlledInput: React.FC<{
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
       value={props.inputKeys.join("+")}
+      placeholder="Type Something"
       readOnly={true}
       autoFocus={true}
     />
