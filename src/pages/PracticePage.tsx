@@ -14,14 +14,14 @@ const defaultShortcuts = [
   { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"] },
   { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"] },
   { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"] },
-  // { prompt: "Indent Line", keybind: ["CONTROL", "["] },
-  // { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
-  // { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
-  // { prompt: "Go to File", keybind: ["CONTROL", "P"] },
-  // { prompt: "Find", keybind: ["CONTROL", "F"] },
-  // { prompt: "Replace", keybind: ["CONTROL", "H"] },
-  // // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
-  // { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
+  { prompt: "Indent Line", keybind: ["CONTROL", "["] },
+  { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
+  { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
+  { prompt: "Go to File", keybind: ["CONTROL", "P"] },
+  { prompt: "Find", keybind: ["CONTROL", "F"] },
+  { prompt: "Replace", keybind: ["CONTROL", "H"] },
+  // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
+  { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
 ];
 
 export default function PracticePage() {
