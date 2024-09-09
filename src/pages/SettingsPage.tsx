@@ -12,7 +12,11 @@ export default function SettingsPage() {
       <ul>
         {settings.map((shortcut) => {
           return (
-            <SettingsRow shortcut={shortcut} updateSettings={updateSettings} />
+            <SettingsRow
+              shortcut={shortcut}
+              updateSettings={updateSettings}
+              key={shortcut.prompt}
+            />
           );
         })}
       </ul>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TimerContext } from "../store/timer-context";
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
-import ControlledInput from "../components/ControlledInput";
+import ControlledPracticeInput from "../components/ControlledPracticeInput";
 import Timer from "../components/Timer";
 import { StatsContext } from "../store/stats-context";
 
@@ -21,7 +21,7 @@ const defaultShortcuts = [
   { prompt: "Find", keybind: ["CONTROL", "F"] },
   { prompt: "Replace", keybind: ["CONTROL", "H"] },
   // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
-  { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
+  // { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
 ];
 
 export default function PracticePage() {
@@ -147,7 +147,10 @@ export default function PracticePage() {
           )}
         </section>
         <section className="w-3/4 mx-auto mt-8 flex justify-center bg-primary-light ">
-          <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
+          <ControlledPracticeInput
+            setInputKeys={setInputKeys}
+            inputKeys={inputKeys}
+          />
         </section>
       </>
     );

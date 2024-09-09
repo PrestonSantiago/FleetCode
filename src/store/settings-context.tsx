@@ -7,7 +7,7 @@ const defaultShortcuts = [
   {
     prompt: "Show Command Palette",
     keybind: ["CTRL", "SHIFT", "P"],
-    active: true,
+    active: false,
   },
   { prompt: "Quick Open, Go to File...", keybind: ["CTRL", "P"], active: true },
   {
@@ -288,13 +288,13 @@ const defaultShortcuts = [
     active: true,
   },
   {
-    prompt: "Move Active Editor Group",
-    keybind: ["CTRL", "K", "CTRL", "LEFT"],
+    prompt: "Move Active Editor Group Left",
+    keybind: ["CTRL", "K", "LEFT"],
     active: true,
   },
   {
-    prompt: "Move Active Editor Group",
-    keybind: ["CTRL", "K", "CTRL", "RIGHT"],
+    prompt: "Move Active Editor Group Right",
+    keybind: ["CTRL", "K", "RIGHT"],
     active: true,
   },
 
@@ -423,9 +423,15 @@ const defaultShortcuts = [
   },
 ];
 
+export interface UpdateSettingsProps {
+  prompt: string;
+  keybind?: string[];
+  active?: boolean;
+}
+
 interface SettingsContextType {
   settings: Shortcut[];
-  updateSettings: () => void;
+  updateSettings: ({ prompt, keybind, active }: UpdateSettingsProps) => void;
 }
 
 export const SettingsContext = createContext<SettingsContextType>({
@@ -436,8 +442,20 @@ export const SettingsContext = createContext<SettingsContextType>({
 const SettingsContextProvider: React.FC<{ children: ReactNode }> = (props) => {
   const [settings, setSettings] = useState(defaultShortcuts);
 
-  function updateSettings() {
-    setSettings((prev) => prev);
+  function updateSettings({ prompt, keybind, active }: UpdateSettingsProps) {
+    setSettings((prev) => {
+      const newSettings = [...prev];
+      const editedShortcutIndex = newSettings.findIndex((shortcut) => {
+        return shortcut.prompt == prompt;
+      });
+      if (keybind !== undefined) {
+        newSettings[editedShortcutIndex].keybind = keybind;
+      }
+      if (active !== undefined) {
+        newSettings[editedShortcutIndex].active = active;
+      }
+      return newSettings;
+    });
   }
 
   const contextValue = {

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ControlledInput: React.FC<{
+const ControlledPracticeInput: React.FC<{
   inputKeys: string[];
   setInputKeys: React.Dispatch<React.SetStateAction<string[]>>;
 }> = (props) => {
@@ -38,4 +38,4 @@ const ControlledInput: React.FC<{
   );
 };
 
-export default ControlledInput;
+export default ControlledPracticeInput;
