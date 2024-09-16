@@ -1,4 +1,3 @@
-import FleetCodeLogo from "../assets/Keycaps/FleetCode-Logo.svg";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
@@ -7,7 +6,7 @@ export default function HomePage() {
       <section className="bg-primary-light w-150 h-150 rounded-8xl text-center">
         <img
           className="mx-auto mt-20"
-          src={FleetCodeLogo}
+          src="/FleetCode-Logo.svg"
           alt="FleetCode Logo"
         />
         <h1 className="text-5xl font-bold font-serif m-2">FleetCode</h1>
