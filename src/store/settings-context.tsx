@@ -6,89 +6,89 @@ const defaultShortcuts = [
   // General
   {
     prompt: "Show Command Palette",
-    keybind: ["CTRL", "SHIFT", "P"],
+    keybind: ["CONTROL", "SHIFT", "P"],
     active: true,
   },
-  { prompt: "Quick Open, Go to File...", keybind: ["CTRL", "P"], active: true },
+  { prompt: "Quick Open, Go to File...", keybind: ["CONTROL", "P"], active: true },
   {
     prompt: "New Window/Instance",
-    keybind: ["CTRL", "SHIFT", "N"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "N"],
+    active: false,
   },
   {
     prompt: "Close Window/Instance",
-    keybind: ["CTRL", "SHIFT", "W"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "W"],
+    active: false,
   },
-  { prompt: "User Settings", keybind: ["CTRL", ","], active: true },
+  { prompt: "User Settings", keybind: ["CONTROL", ","], active: true },
   {
     prompt: "Keyboard Shortcuts",
-    keybind: ["CTRL", "K", "CTRL", "S"],
+    keybind: ["CONTROL", "S"],
     active: true,
   },
 
   // Basic Editing
   {
     prompt: "Cut Line (empty selection)",
-    keybind: ["CTRL", "X"],
+    keybind: ["CONTROL", "X"],
     active: true,
   },
   {
     prompt: "Copy Line (empty selection)",
-    keybind: ["CTRL", "C"],
+    keybind: ["CONTROL", "C"],
     active: true,
   },
-  { prompt: "Move Line Up", keybind: ["ALT", "UP"], active: true },
-  { prompt: "Move Line Down", keybind: ["ALT", "DOWN"], active: true },
-  { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "UP"], active: true },
-  { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "DOWN"], active: true },
-  { prompt: "Delete Line", keybind: ["CTRL", "SHIFT", "K"], active: true },
-  { prompt: "Insert Line Below", keybind: ["CTRL", "ENTER"], active: true },
+  { prompt: "Move Line Up", keybind: ["ALT", "ARROWUP"], active: true },
+  { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"], active: true },
+  { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"], active: true },
+  { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"], active: true },
+  { prompt: "Delete Line", keybind: ["CONTROL", "SHIFT", "K"], active: true },
+  { prompt: "Insert Line Below", keybind: ["CONTROL", "ENTER"], active: true },
   {
     prompt: "Insert Line Above",
-    keybind: ["CTRL", "SHIFT", "ENTER"],
+    keybind: ["CONTROL", "SHIFT", "ENTER"],
     active: true,
   },
-  { prompt: "Jump to Matching Bracket", keybind: ["CTRL", "]"], active: true },
-  { prompt: "Indent Line", keybind: ["CTRL", "]"], active: true },
-  { prompt: "Outdent Line", keybind: ["CTRL", "["], active: true },
+  { prompt: "Jump to Matching Bracket", keybind: ["CONTROL", "]"], active: true },
+  { prompt: "Indent Line", keybind: ["CONTROL", "]"], active: true },
+  { prompt: "Outdent Line", keybind: ["CONTROL", "["], active: true },
   { prompt: "Go to Beginning of Line", keybind: ["HOME"], active: true },
   { prompt: "Go to End of Line", keybind: ["END"], active: true },
-  { prompt: "Scroll Line Up", keybind: ["CTRL", "UP"], active: true },
-  { prompt: "Scroll Line Down", keybind: ["CTRL", "DOWN"], active: true },
-  { prompt: "Scroll Page Up", keybind: ["ALT", "PgUp"], active: true },
-  { prompt: "Scroll Page Down", keybind: ["ALT", "PgDn"], active: true },
+  { prompt: "Scroll Line Up", keybind: ["CONTROL", "ARROWUP"], active: true },
+  { prompt: "Scroll Line Down", keybind: ["CONTROL", "ARROWDOWN"], active: true },
+  { prompt: "Scroll Page Up", keybind: ["ALT", "PAGEUP"], active: true },
+  { prompt: "Scroll Page Down", keybind: ["ALT", "PAGEDOWN"], active: true },
   {
     prompt: "Fold (Collapse) Region",
-    keybind: ["CTRL", "SHIFT", "["],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "["],
+    active: false,
   },
   {
     prompt: "Unfold (Expand) Region",
-    keybind: ["CTRL", "SHIFT", "]"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "]"],
+    active: false,
   },
   {
     prompt: "Fold (Collapse) All Subregions",
-    keybind: ["CTRL", "K", "CTRL", "0"],
+    keybind: ["CONTROL", "0"],
     active: true,
   },
   {
     prompt: "Unfold (Expand) All Subregions",
-    keybind: ["CTRL", "K", "CTRL", "J"],
+    keybind: ["CONTROL", "J"],
     active: true,
   },
   {
     prompt: "Add Line Comment",
-    keybind: ["CTRL", "K", "CTRL", "C"],
+    keybind: ["CONTROL", "C"],
     active: true,
   },
   {
     prompt: "Remove Line Comment",
-    keybind: ["CTRL", "K", "CTRL", "U"],
+    keybind: ["CONTROL", "U"],
     active: true,
   },
-  { prompt: "Toggle Line Comment", keybind: ["CTRL", "/"], active: true },
+  { prompt: "Toggle Line Comment", keybind: ["CONTROL", "/"], active: false },
   {
     prompt: "Toggle Block Comment",
     keybind: ["SHIFT", "ALT", "A"],
@@ -97,47 +97,47 @@ const defaultShortcuts = [
   { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"], active: true },
 
   // Navigation
-  { prompt: "Show All Symbols", keybind: ["CTRL", "T"], active: true },
-  { prompt: "Go to Line...", keybind: ["CTRL", "G"], active: true },
-  { prompt: "Go to File...", keybind: ["CTRL", "P"], active: true },
-  { prompt: "Go to Symbol...", keybind: ["CTRL", "SHIFT", "O"], active: true },
+  { prompt: "Show All Symbols", keybind: ["CONTROL", "T"], active: false },
+  { prompt: "Go to Line...", keybind: ["CONTROL", "G"], active: false },
+  { prompt: "Go to File...", keybind: ["CONTROL", "P"], active: true },
+  { prompt: "Go to Symbol...", keybind: ["CONTROL", "SHIFT", "O"], active: true },
   {
     prompt: "Show Problems Panel",
-    keybind: ["CTRL", "SHIFT", "M"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "M"],
+    active: false,
   },
   { prompt: "Go to Next Error or Warning", keybind: ["F8"], active: true },
   {
     prompt: "Go to Previous Error or Warning",
     keybind: ["SHIFT", "F8"],
-    active: true,
+    active: false,
   },
   {
     prompt: "Navigate Editor Group History",
-    keybind: ["CTRL", "SHIFT", "TAB"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "TAB"],
+    active: false,
   },
-  { prompt: "Go Back", keybind: ["ALT", "LEFT"], active: true },
-  { prompt: "Go Forward", keybind: ["ALT", "RIGHT"], active: true },
+  { prompt: "Go Back", keybind: ["ALT", "ARROWLEFT"], active: true },
+  { prompt: "Go Forward", keybind: ["ALT", "ARROWRIGHT"], active: true },
 
   // Search and Replace
-  { prompt: "Find", keybind: ["CTRL", "F"], active: true },
-  { prompt: "Replace", keybind: ["CTRL", "H"], active: true },
-  { prompt: "Find Next", keybind: ["F3"], active: true },
-  { prompt: "Find Previous", keybind: ["SHIFT", "F3"], active: true },
+  { prompt: "Find", keybind: ["CONTROL", "F"], active: true },
+  { prompt: "Replace", keybind: ["CONTROL", "H"], active: true },
+  { prompt: "Find Next", keybind: ["F3"], active: false },
+  { prompt: "Find Previous", keybind: ["SHIFT", "F3"], active: false },
   {
     prompt: "Select All Occurrences of Find Match",
-    keybind: ["CTRL", "SHIFT", "L"],
+    keybind: ["CONTROL", "SHIFT", "L"],
     active: true,
   },
   {
     prompt: "Add Selection to Next Find Match",
-    keybind: ["CTRL", "D"],
+    keybind: ["CONTROL", "D"],
     active: true,
   },
   {
     prompt: "Move Last Selection to Next Find Match",
-    keybind: ["CTRL", "K", "CTRL", "D"],
+    keybind: ["CONTROL", "D"],
     active: true,
   },
   { prompt: "Toggle Case-Sensitive", keybind: ["ALT", "C"], active: true },
@@ -145,20 +145,19 @@ const defaultShortcuts = [
   { prompt: "Toggle Whole Word", keybind: ["ALT", "W"], active: true },
 
   // Multi-cursor and Selection
-  { prompt: "Insert Cursor", keybind: ["ALT", "CLICK"], active: true },
   {
     prompt: "Insert Cursor Above",
-    keybind: ["CTRL", "ALT", "UP"],
+    keybind: ["CONTROL", "ALT", "ARROWUP"],
     active: true,
   },
   {
     prompt: "Insert Cursor Below",
-    keybind: ["CTRL", "ALT", "DOWN"],
+    keybind: ["CONTROL", "ALT", "ARROWDOWN"],
     active: true,
   },
   {
     prompt: "Undo Last Cursor Operation",
-    keybind: ["CTRL", "U"],
+    keybind: ["CONTROL", "U"],
     active: true,
   },
   {
@@ -166,266 +165,288 @@ const defaultShortcuts = [
     keybind: ["SHIFT", "ALT", "I"],
     active: true,
   },
-  { prompt: "Select Current Line", keybind: ["CTRL", "L"], active: true },
+  { prompt: "Select Current Line", keybind: ["CONTROL", "L"], active: true },
   {
     prompt: "Select All Occurrences of Current Selection",
-    keybind: ["CTRL", "SHIFT", "L"],
+    keybind: ["CONTROL", "SHIFT", "L"],
     active: true,
   },
   {
     prompt: "Expand Selection",
-    keybind: ["SHIFT", "ALT", "RIGHT"],
+    keybind: ["SHIFT", "ALT", "ARROWRIGHT"],
     active: true,
   },
   {
     prompt: "Shrink Selection",
-    keybind: ["SHIFT", "ALT", "LEFT"],
+    keybind: ["SHIFT", "ALT", "ARROWLEFT"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Up",
-    keybind: ["CTRL", "SHIFT", "ALT", "UP"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "ARROWUP"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Down",
-    keybind: ["CTRL", "SHIFT", "ALT", "DOWN"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "ARROWDOWN"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Left",
-    keybind: ["CTRL", "SHIFT", "ALT", "LEFT"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "ARROWLEFT"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Right",
-    keybind: ["CTRL", "SHIFT", "ALT", "RIGHT"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "ARROWRIGHT"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Page Up",
-    keybind: ["CTRL", "SHIFT", "ALT", "PgUp"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "PAGEUP"],
     active: true,
   },
   {
     prompt: "Column (Box) Selection Page Down",
-    keybind: ["CTRL", "SHIFT", "ALT", "PgDn"],
+    keybind: ["CONTROL", "SHIFT", "ALT", "PAGEDOWN"],
     active: true,
   },
 
   // Rich Languages Editing
-  { prompt: "Trigger Suggest", keybind: ["CTRL", "SPACE"], active: true },
+  { prompt: "Trigger Suggest", keybind: ["CONTROL", "SPACE"], active: false },
   {
     prompt: "Trigger Parameter Hints",
-    keybind: ["CTRL", "SHIFT", "SPACE"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", " "],
+    active: false,
   },
   { prompt: "Format Document", keybind: ["SHIFT", "ALT", "F"], active: true },
   {
     prompt: "Format Selection",
-    keybind: ["CTRL", "K", "CTRL", "F"],
+    keybind: ["CONTROL", "F"],
     active: true,
   },
   { prompt: "Go to Definition", keybind: ["F12"], active: true },
-  { prompt: "Peek Definition", keybind: ["ALT", "F12"], active: true },
+  { prompt: "Peek Definition", keybind: ["ALT", "F12"], active: false },
   {
     prompt: "Open Definition to the Side",
-    keybind: ["CTRL", "K", "F12"],
+    keybind: ["F12"],
     active: true,
   },
-  { prompt: "Quick Fix", keybind: ["CTRL", "."], active: true },
-  { prompt: "Show References", keybind: ["SHIFT", "F12"], active: true },
+  { prompt: "Quick Fix", keybind: ["CONTROL", "."], active: true },
+  { prompt: "Show References", keybind: ["SHIFT", "F12"], active: false },
   { prompt: "Rename Symbol", keybind: ["F2"], active: true },
   {
     prompt: "Trim Trailing Whitespace",
-    keybind: ["CTRL", "K", "CTRL", "X"],
+    keybind: ["CONTROL", "X"],
     active: true,
   },
-  { prompt: "Change All Occurrences", keybind: ["CTRL", "F2"], active: true },
+  { prompt: "Change All Occurrences", keybind: ["CONTROL", "F2"], active: false },
   {
     prompt: "Select All Occurrences of Current Word",
-    keybind: ["CTRL", "SHIFT", "L"],
+    keybind: ["CONTROL", "SHIFT", "L"],
     active: true,
   },
 
   // Editor Management
-  { prompt: "Close Editor", keybind: ["CTRL", "F4"], active: true },
-  { prompt: "Close Folder", keybind: ["CTRL", "K", "F"], active: true },
-  { prompt: "Split Editor", keybind: ["CTRL", "\\"], active: true },
+  { prompt: "Close Editor", keybind: ["CONTROL", "F4"], active: false },
+  { prompt: "Close Folder", keybind: ["CONTROL", "K", "F"], active: true },
+  { prompt: "Split Editor", keybind: ["CONTROL", "\\"], active: true },
   {
     prompt: "Focus into 1st Editor Group",
-    keybind: ["CTRL", "1"],
+    keybind: ["CONTROL", "1"],
     active: true,
   },
   {
     prompt: "Focus into 2nd Editor Group",
-    keybind: ["CTRL", "2"],
+    keybind: ["CONTROL", "2"],
     active: true,
   },
   {
     prompt: "Focus into 3rd Editor Group",
-    keybind: ["CTRL", "3"],
+    keybind: ["CONTROL", "3"],
     active: true,
   },
   {
     prompt: "Focus into Next Editor Group",
-    keybind: ["CTRL", "K", "RIGHT"],
+    keybind: ["CONTROL", "K", "ARROWRIGHT"],
     active: true,
   },
   {
     prompt: "Focus into Previous Editor Group",
-    keybind: ["CTRL", "K", "LEFT"],
+    keybind: ["CONTROL", "K", "ARROWLEFT"],
     active: true,
   },
   {
     prompt: "Move Editor Left",
-    keybind: ["CTRL", "SHIFT", "PgUp"],
+    keybind: ["CONTROL", "SHIFT", "PAGEUP"],
     active: true,
   },
   {
     prompt: "Move Editor Right",
-    keybind: ["CTRL", "SHIFT", "PgDn"],
+    keybind: ["CONTROL", "SHIFT", "PAGEDOWN"],
     active: true,
   },
   {
-    prompt: "Move Active Editor Group",
-    keybind: ["CTRL", "K", "CTRL", "LEFT"],
+    prompt: "Move Active Editor Group Left",
+    keybind: ["CONTROL", "K", "ARROWLEFT"],
     active: true,
   },
   {
-    prompt: "Move Active Editor Group",
-    keybind: ["CTRL", "K", "CTRL", "RIGHT"],
+    prompt: "Move Active Editor Group Right",
+    keybind: ["CONTROL", "K", "ARROWRIGHT"],
     active: true,
   },
 
   // File Management
-  { prompt: "New File", keybind: ["CTRL", "N"], active: true },
-  { prompt: "Open File...", keybind: ["CTRL", "O"], active: true },
-  { prompt: "Save", keybind: ["CTRL", "S"], active: true },
-  { prompt: "Save As...", keybind: ["CTRL", "SHIFT", "S"], active: true },
-  { prompt: "Save All", keybind: ["CTRL", "K", "S"], active: true },
-  { prompt: "Close", keybind: ["CTRL", "F4"], active: true },
-  { prompt: "Close All", keybind: ["CTRL", "K", "CTRL", "W"], active: true },
+  { prompt: "New File", keybind: ["CONTROL", "N"], active: false },
+  { prompt: "Open File...", keybind: ["CONTROL", "O"], active: true },
+  { prompt: "Save", keybind: ["CONTROL", "S"], active: true },
+  { prompt: "Save As...", keybind: ["CONTROL", "SHIFT", "S"], active: true },
+  { prompt: "Save All", keybind: ["CONTROL", "K", "S"], active: true },
+  { prompt: "Close", keybind: ["CONTROL", "F4"], active: false },
+  { prompt: "Close All", keybind: ["CONTROL", "W"], active: false },
   {
     prompt: "Reopen Closed Editor",
-    keybind: ["CTRL", "SHIFT", "T"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "T"],
+    active: false,
   },
   {
     prompt: "Keep Preview Mode Editor Open",
-    keybind: ["CTRL", "K", "ENTER"],
+    keybind: ["CONTROL", "K", "ENTER"],
     active: true,
   },
-  { prompt: "Open Next", keybind: ["CTRL", "TAB"], active: true },
-  { prompt: "Open Previous", keybind: ["CTRL", "SHIFT", "TAB"], active: true },
+  { prompt: "Open Next", keybind: ["CONTROL", "TAB"], active: false },
+  { prompt: "Open Previous", keybind: ["CONTROL", "SHIFT", "TAB"], active: false },
   {
     prompt: "Copy Path of Active File",
-    keybind: ["CTRL", "K", "P"],
+    keybind: ["CONTROL", "K", "P"],
     active: true,
   },
   {
     prompt: "Reveal Active File in Explorer",
-    keybind: ["CTRL", "K", "R"],
+    keybind: ["CONTROL", "K", "R"],
     active: true,
   },
   {
     prompt: "Show Active File in New Window/Instance",
-    keybind: ["CTRL", "K", "O"],
+    keybind: ["CONTROL", "K", "O"],
     active: true,
   },
 
   // Display
-  { prompt: "Toggle Full Screen", keybind: ["F11"], active: true },
+  { prompt: "Toggle Full Screen", keybind: ["F11"], active: false },
   {
     prompt: "Toggle Editor Layout (Horizontal/Vertical)",
     keybind: ["SHIFT", "ALT", "0"],
-    active: true,
+    active: false,
   },
-  { prompt: "Zoom In/Out", keybind: ["CTRL", "=", "CTRL", "-"], active: true },
-  { prompt: "Toggle Sidebar Visibility", keybind: ["CTRL", "B"], active: true },
+  { prompt: "Zoom In", keybind: ["CONTROL", "="], active: true },
+  { prompt: "Zoom Out", keybind: ["CONTROL", "-"], active: true },
+  { prompt: "Toggle Sidebar Visibility", keybind: ["CONTROL", "B"], active: true },
   {
     prompt: "Show Explorer / Toggle Focus",
-    keybind: ["CTRL", "SHIFT", "E"],
+    keybind: ["CONTROL", "SHIFT", "E"],
     active: true,
   },
-  { prompt: "Show Search", keybind: ["CTRL", "SHIFT", "F"], active: true },
+  { prompt: "Show Search", keybind: ["CONTROL", "SHIFT", "F"], active: true },
   {
     prompt: "Show Source Control",
-    keybind: ["CTRL", "SHIFT", "G"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "G"],
+    active: false,
   },
-  { prompt: "Show Debug", keybind: ["CTRL", "SHIFT", "D"], active: true },
-  { prompt: "Show Extensions", keybind: ["CTRL", "SHIFT", "X"], active: true },
-  { prompt: "Replace in Files", keybind: ["CTRL", "SHIFT", "H"], active: true },
+  { prompt: "Show Debug", keybind: ["CONTROL", "SHIFT", "D"], active: true },
+  { prompt: "Show Extensions", keybind: ["CONTROL", "SHIFT", "X"], active: false },
+  { prompt: "Replace in Files", keybind: ["CONTROL", "SHIFT", "H"], active: true },
   {
     prompt: "Toggle Search Details",
-    keybind: ["CTRL", "SHIFT", "J"],
+    keybind: ["CONTROL", "SHIFT", "J"],
     active: true,
   },
   {
     prompt: "Show Output Panel",
-    keybind: ["CTRL", "SHIFT", "U"],
+    keybind: ["CONTROL", "SHIFT", "U"],
     active: true,
   },
   {
     prompt: "Open Markdown Preview",
-    keybind: ["CTRL", "SHIFT", "V"],
+    keybind: ["CONTROL", "SHIFT", "V"],
     active: true,
   },
   {
     prompt: "Open Markdown Preview to the Side",
-    keybind: ["CTRL", "K", "V"],
+    keybind: ["CONTROL", "K", "V"],
     active: true,
   },
   {
     prompt: "Zen Mode (Esc Esc to exit)",
-    keybind: ["CTRL", "K", "Z"],
+    keybind: ["CONTROL", "K", "Z"],
     active: true,
   },
 
   // Debug
   { prompt: "Toggle Breakpoint", keybind: ["F9"], active: true },
   { prompt: "Start/Continue", keybind: ["F5"], active: true },
-  { prompt: "Stop", keybind: ["SHIFT", "F5"], active: true },
-  { prompt: "Step into", keybind: ["F11"], active: true },
+  { prompt: "Stop", keybind: ["SHIFT", "F5"], active: false },
+  { prompt: "Step into", keybind: ["F11"], active: false },
   { prompt: "Step over", keybind: ["F10"], active: true },
-  { prompt: "Step out", keybind: ["SHIFT", "F11"], active: true },
-  { prompt: "Restart", keybind: ["CTRL", "SHIFT", "F5"], active: true },
-  { prompt: "Show Hover", keybind: ["CTRL", "K", "CTRL", "I"], active: true },
+  { prompt: "Step out", keybind: ["SHIFT", "F11"], active: false },
+  { prompt: "Restart", keybind: ["CONTROL", "SHIFT", "F5"], active: false },
+  { prompt: "Show Hover", keybind: ["CONTROL", "I"], active: true },
 
   // Integrated Terminal
-  { prompt: "Show Integrated Terminal", keybind: ["CTRL", "`"], active: true },
+  { prompt: "Show Integrated Terminal", keybind: ["CONTROL", "`"], active: false },
   {
     prompt: "Create New Terminal",
-    keybind: ["CTRL", "SHIFT", "`"],
-    active: true,
+    keybind: ["CONTROL", "SHIFT", "`"],
+    active: false,
   },
-  { prompt: "Copy Selection", keybind: ["CTRL", "C"], active: true },
+  { prompt: "Copy Selection", keybind: ["CONTROL", "C"], active: true },
   {
     prompt: "Paste into Active Terminal",
-    keybind: ["CTRL", "V"],
+    keybind: ["CONTROL", "V"],
     active: true,
   },
   {
-    prompt: "Scroll Up/Down",
-    keybind: ["CTRL", "UP", "CTRL", "DOWN"],
+    prompt: "Scroll Up",
+    keybind: ["CONTROL", "ARROWUP"],
     active: true,
   },
   {
-    prompt: "Scroll Page Up/Down",
-    keybind: ["CTRL", "PgUp", "CTRL", "PgDn"],
+      prompt: "Scroll Down",
+      keybind: ["CONTROL", "ARROWDOWN"],
+      active: true,
+    },
+  {
+    prompt: "Scroll Page Up",
+    keybind: ["CONTROL", "PAGEUP"],
+    active: false,
+  },
+  {
+      prompt: "Scroll Down",
+      keybind: ["CONTROL", "PAGEDOWN"],
+      active: false,
+  },
+  {
+    prompt: "Scroll to Top",
+    keybind: ["CONTROL", "HOME"],
     active: true,
   },
   {
-    prompt: "Scroll to Top/Bottom",
-    keybind: ["CTRL", "HOME", "CTRL", "END"],
-    active: true,
-  },
+      prompt: "Scroll to Bottom",
+      keybind: ["CONTROL", "END"],
+      active: true,
+    },
 ];
+
+export interface UpdateSettingsProps {
+  prompt: string;
+  keybind?: string[];
+  active?: boolean;
+}
 
 interface SettingsContextType {
   settings: Shortcut[];
-  updateSettings: () => void;
+  updateSettings: ({ prompt, keybind, active }: UpdateSettingsProps) => void;
 }
 
 export const SettingsContext = createContext<SettingsContextType>({
@@ -436,8 +457,20 @@ export const SettingsContext = createContext<SettingsContextType>({
 const SettingsContextProvider: React.FC<{ children: ReactNode }> = (props) => {
   const [settings, setSettings] = useState(defaultShortcuts);
 
-  function updateSettings() {
-    setSettings((prev) => prev);
+  function updateSettings({ prompt, keybind, active }: UpdateSettingsProps) {
+    setSettings((prev) => {
+      const newSettings = [...prev];
+      const editedShortcutIndex = newSettings.findIndex((shortcut) => {
+        return shortcut.prompt == prompt;
+      });
+      if (keybind !== undefined) {
+        newSettings[editedShortcutIndex].keybind = keybind;
+      }
+      if (active !== undefined) {
+        newSettings[editedShortcutIndex].active = active;
+      }
+      return newSettings;
+    });
   }
 
   const contextValue = {

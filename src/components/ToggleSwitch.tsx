@@ -1,9 +1,12 @@
+import { UpdateSettingsProps } from "../store/settings-context";
 interface ToggleSwitchProps {
+  prompt: string;
   active: boolean;
-  updateSettings: () => void;
+  updateSettings: ({ prompt, keybind, active }: UpdateSettingsProps) => void;
 }
 
 const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
+  prompt,
   active,
   updateSettings,
 }) => {
@@ -12,7 +15,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
       <input
         type="checkbox"
         checked={active}
-        onChange={updateSettings}
+        onChange={() => updateSettings({ prompt: prompt, active: !active })}
         className="sr-only peer"
       />
       <div className="w-11 h-6 bg-gray-200 rounded-full peer-focus:ring-2 peer-focus:ring-primary-dark dark:peer-focus:ring-primary-dark peer-checked:bg-secondary peer dark:bg-gray-600 transition-colors"></div>

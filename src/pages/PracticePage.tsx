@@ -3,33 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { TimerContext } from "../store/timer-context";
 import NavBar from "../components/NavBar";
 import FinishModal from "../components/FinishModal";
-import ControlledInput from "../components/ControlledInput";
+import ControlledPracticeInput from "../components/ControlledPracticeInput";
 import Timer from "../components/Timer";
 import { StatsContext } from "../store/stats-context";
-
-const defaultShortcuts = [
-  { prompt: "Show Command Palette", keybind: ["CONTROL", "SHIFT", "P"] },
-  // { prompt: "New Window/Instance", keybind: ["CONTROL", "SHIFT", "N"] },
-  { prompt: "Move Line Up", keybind: ["ALT", "ARROWUP"] },
-  { prompt: "Move Line Down", keybind: ["ALT", "ARROWDOWN"] },
-  { prompt: "Copy Line Up", keybind: ["SHIFT", "ALT", "ARROWUP"] },
-  { prompt: "Copy Line Down", keybind: ["SHIFT", "ALT", "ARROWDOWN"] },
-  { prompt: "Indent Line", keybind: ["CONTROL", "["] },
-  { prompt: "Outdent Line", keybind: ["CONTROL", "]"] },
-  { prompt: "Toggle Word Wrap", keybind: ["ALT", "Z"] },
-  { prompt: "Go to File", keybind: ["CONTROL", "P"] },
-  { prompt: "Find", keybind: ["CONTROL", "F"] },
-  { prompt: "Replace", keybind: ["CONTROL", "H"] },
-  // { prompt: "Trigger Suggestion", keybind: ["CONTROL", " "] },
-  { prompt: "Trigger Parameter Hints", keybind: ["CONTROL", "SHIFT", " "] },
-];
+import { SettingsContext } from "../store/settings-context";
+import Shortcut from "../models/shortcut";
 
 export default function PracticePage() {
   const [inputKeys, setInputKeys] = useState<string[]>([]);
   const shortcutIndex = useRef(0);
-  const [shortcuts, setShortcuts] = useState<
-    { prompt: string; keybind: string[] }[]
-  >([]);
+  const [randomShortcuts, setRandomShortcuts] = useState<Shortcut[]>([]);
   const [showHint, setShowHint] = useState(false);
   const navigate = useNavigate();
   const {
@@ -41,19 +24,41 @@ export default function PracticePage() {
     stopTimer,
   } = useContext(TimerContext);
   const { updateStats } = useContext(StatsContext);
+  const { settings } = useContext(SettingsContext);
 
-  const playerIsFinished = shortcutIndex.current === shortcuts.length;
+  const playerIsFinished = shortcutIndex.current === randomShortcuts.length;
+
+  const setRandomActiveShortcuts = useCallback(
+    (amountToPractice = 10) => {
+      const randomActiveShortcuts: Shortcut[] = [];
+      const activeShortcuts = settings.filter((shortcut) => {
+        return shortcut.active == true;
+      });
+      console.log(activeShortcuts);
+      if (activeShortcuts.length !== 0) {
+        for (let i = 0; i < amountToPractice; i++) {
+          const randomIndex = Math.floor(
+            Math.random() * activeShortcuts.length
+          );
+          randomActiveShortcuts.push(activeShortcuts[randomIndex]);
+        }
+      }
+      setRandomShortcuts(randomActiveShortcuts);
+    },
+    [settings]
+  );
 
   const startPractice = useCallback(() => {
     setTimerRunning(true);
-    setShortcuts(defaultShortcuts);
+    setRandomActiveShortcuts();
+    setShowHint(true);
     startTimer();
     if (dateTimes.startTime === 0) {
       setDateTimes({ startTime: Date.now(), endTime: Date.now() });
     }
   }, [
     setTimerRunning,
-    setShortcuts,
+    setRandomActiveShortcuts,
     startTimer,
     setDateTimes,
     dateTimes.startTime,
@@ -61,11 +66,12 @@ export default function PracticePage() {
 
   const isInputCorrect = useCallback(
     (input: string[]) => {
-      if (shortcutIndex.current !== shortcuts.length) {
+      if (shortcutIndex.current !== randomShortcuts.length) {
         if (
-          input.length === shortcuts[shortcutIndex.current].keybind.length &&
+          input.length ===
+            randomShortcuts[shortcutIndex.current].keybind.length &&
           JSON.stringify(input) ===
-            JSON.stringify(shortcuts[shortcutIndex.current].keybind)
+            JSON.stringify(randomShortcuts[shortcutIndex.current].keybind)
         ) {
           shortcutIndex.current += 1;
         }
@@ -81,7 +87,7 @@ export default function PracticePage() {
       }
     },
     [
-      shortcuts,
+      randomShortcuts,
       stopTimer,
       setTimerRunning,
       setDateTimes,
@@ -119,7 +125,7 @@ export default function PracticePage() {
     setShowHint(false);
   }
 
-  if (playerIsFinished && shortcuts.length !== 0) {
+  if (playerIsFinished && randomShortcuts.length !== 0) {
     return <FinishModal restart={resetPractice} />;
   } else {
     return (
@@ -135,20 +141,39 @@ export default function PracticePage() {
         <section className="w-3/4 h-2/5 m-auto p-8 flex flex-col justify-center bg-primary-light ">
           <h1 className="m-auto text-7xl">
             {timerRunning
-              ? shortcuts.length
-                ? shortcuts[shortcutIndex.current].prompt
+              ? randomShortcuts.length
+                ? randomShortcuts[shortcutIndex.current].prompt
                 : "There was an error starting the practice. Please refresh"
               : "Press Enter to start the practice"}
           </h1>
           {showHint && (
             <h1 className="m-auto p-4 text-7xl border border-primary-dark rounded-xl">
-              {"Hint: " + shortcuts[shortcutIndex.current].keybind.join(" + ")}
+              {"Hint: " +
+                randomShortcuts[shortcutIndex.current].keybind.join(" + ")}
             </h1>
           )}
         </section>
         <section className="w-3/4 mx-auto mt-8 flex justify-center bg-primary-light ">
-          <ControlledInput setInputKeys={setInputKeys} inputKeys={inputKeys} />
+          <ControlledPracticeInput
+            setInputKeys={setInputKeys}
+            inputKeys={inputKeys}
+          />
         </section>
+        <p className="w-3/4 mx-auto font-bold text-center text-secondary">
+          ### This is a demo version! Hints are enabled by default and a skip
+          button is provided in case you don't have a full keyboard or browser
+          shortcuts override :) ###
+        </p>
+        <div className="flex justify-center">
+          <button
+            className="text-2xl border-2 border-black w-40 h-12 rounded-3xl bg-secondary"
+            onClick={() =>
+              handleInput(randomShortcuts[shortcutIndex.current].keybind)
+            }
+          >
+            Skip Prompt
+          </button>
+        </div>
       </>
     );
   }
