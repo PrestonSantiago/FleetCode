@@ -28,24 +28,30 @@ export default function PracticePage() {
 
   const playerIsFinished = shortcutIndex.current === randomShortcuts.length;
 
-  const setRandomActiveShortcuts = useCallback((amountToPractice = 20) => {
-    const randomActiveShortcuts:Shortcut[] = [];
-    const activeShortcuts = settings.filter((shortcut) => {
-      return shortcut.active == true
-    })
-    console.log(activeShortcuts);
-    if(activeShortcuts.length !== 0){
-      for( let i=0; i<amountToPractice; i++){
-        const randomIndex = Math.floor(Math.random() * activeShortcuts.length);
-        randomActiveShortcuts.push(activeShortcuts[randomIndex])
+  const setRandomActiveShortcuts = useCallback(
+    (amountToPractice = 10) => {
+      const randomActiveShortcuts: Shortcut[] = [];
+      const activeShortcuts = settings.filter((shortcut) => {
+        return shortcut.active == true;
+      });
+      console.log(activeShortcuts);
+      if (activeShortcuts.length !== 0) {
+        for (let i = 0; i < amountToPractice; i++) {
+          const randomIndex = Math.floor(
+            Math.random() * activeShortcuts.length
+          );
+          randomActiveShortcuts.push(activeShortcuts[randomIndex]);
+        }
       }
-    }
-    setRandomShortcuts(randomActiveShortcuts);
-  }, [settings])
+      setRandomShortcuts(randomActiveShortcuts);
+    },
+    [settings]
+  );
 
   const startPractice = useCallback(() => {
     setTimerRunning(true);
     setRandomActiveShortcuts();
+    setShowHint(true);
     startTimer();
     if (dateTimes.startTime === 0) {
       setDateTimes({ startTime: Date.now(), endTime: Date.now() });
@@ -62,7 +68,8 @@ export default function PracticePage() {
     (input: string[]) => {
       if (shortcutIndex.current !== randomShortcuts.length) {
         if (
-          input.length === randomShortcuts[shortcutIndex.current].keybind.length &&
+          input.length ===
+            randomShortcuts[shortcutIndex.current].keybind.length &&
           JSON.stringify(input) ===
             JSON.stringify(randomShortcuts[shortcutIndex.current].keybind)
         ) {
@@ -141,7 +148,8 @@ export default function PracticePage() {
           </h1>
           {showHint && (
             <h1 className="m-auto p-4 text-7xl border border-primary-dark rounded-xl">
-              {"Hint: " + randomShortcuts[shortcutIndex.current].keybind.join(" + ")}
+              {"Hint: " +
+                randomShortcuts[shortcutIndex.current].keybind.join(" + ")}
             </h1>
           )}
         </section>
@@ -151,6 +159,21 @@ export default function PracticePage() {
             inputKeys={inputKeys}
           />
         </section>
+        <p className="w-3/4 mx-auto font-bold text-center text-secondary">
+          ### This is a demo version! Hints are enabled by default and a skip
+          button is provided in case you don't have a full keyboard or browser
+          shortcuts override :) ###
+        </p>
+        <div className="flex justify-center">
+          <button
+            className="text-2xl border-2 border-black w-40 h-12 rounded-3xl bg-secondary"
+            onClick={() =>
+              handleInput(randomShortcuts[shortcutIndex.current].keybind)
+            }
+          >
+            Skip Prompt
+          </button>
+        </div>
       </>
     );
   }
